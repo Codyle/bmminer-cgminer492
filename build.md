@@ -1,7 +1,7 @@
 
-git clone https://github.com/Zwilla/bmminer-master.git
+git clone https://github.com/Zwilla/bmminer-cgminer492
 
-cd bmminer-master
+cd bmminer-cgminer492
 
 chmod -R 777 *
 
