@@ -1,37 +1,31 @@
-https://bitcointalk.org/index.php?topic=1569129.msg15750022#msg15750022
+https://bitcointalk.org/index.php?topic=1569129
 Bounty for Cracking Bitmain S9 BMminer
 
-***** 31/08-2016 WE ARE CLOSE TO AN SOLUTION, SO GUYS WHO WROTE THEY WOULD DONATE FOR THE BOUNTY, PLEASE ASK philipma1957 for ESCROW BTC ADRESS*****
-***** BTC adress will be published as soon as I get it from philipma1957*****
-***** BTC Bounty collection adress: 16PP93e8tL1QuM7eoGNvLGtdfvHw5rAcd9 *******
-
-
-*****If someone still wants to join the quest and get the CGminer 4.9.2 for the S9`s, then please donate to the BTC adress provided by philipma1957********
-*****People who donates will be the ones to get the firmware for the S9`s first before firmware is published**********
-***** BTC Bounty collection adress: 16PP93e8tL1QuM7eoGNvLGtdfvHw5rAcd9 *******
-Remember to post your transaction ID as proof of donation  Wink
 
 At the folder "binaries", you will find this files and these are the MD5Sum's:
 
 MD5-Sum                                            Binary
 -----------------------------------------------------------------
-9001a9853e86acc67e40f09969abbf45   bmminer-api
+compile it and create them                       bmminer-api
 -----------------------------------------------------------------
-8230fdac00385e6196b27862ccc656ff    bmminer
+compile it and create them                       bmminer
 -----------------------------------------------------------------
-463d5d149f4c177db5a22655b2bc816d  restoreConfig.sh
+compile it and create them                       restoreConfig.sh
 -----------------------------------------------------------------
 
 The upgrade script you find at the folder "update-script"
 
-This is a multi-threaded multi-pool FPGA and ASIC miner for bitcoin.
+This is a multi-threaded multi-pool ASIC miner for Bitmain Antminer S9.
 
 This code is provided entirely free of charge by the programmer in his spare
 time so donations would be greatly appreciated. Please consider donating to the
 address below.
 
-Con Kolivas <kernel@kolivas.org>
-15qSxP1SQcUX3o4nhkfdbgyoWEFMomJ4rZ
+Michael Padilla <michael.padilla@zwilla.de>
+16L45ub3SpHZ6dYbqseip7Fv4BEJSj9xEo
+
+If you need an invoice for your donations get it here:
+https://www.zwilla.de/de/auktionen/software/donation-product-for-changing-bmminer-into-cgminer-4-9-2/
 
 NOTE: This code is licensed under the GPLv3. This means that the source to any
 modifications you make to this code MUST be provided by law if you distribute
@@ -40,19 +34,16 @@ modified binaries. See COPYING for details.
 
 DOWNLOADS:
 
-http://ck.kolivas.org/apps/cgminer
+https://www.zwilla.de/de/auktionen/software/donation-product-for-changing-bmminer-into-cgminer-4-9-2/
 
 GIT TREE:
 
-https://github.com/ckolivas/cgminer
+https://github.com/Zwilla/bmminer-cgminer492
 
-Support thread:
+Bounty thread:
 
-http://bitcointalk.org/index.php?topic=28402.0
+https://bitcointalk.org/index.php?topic=1569129
 
-IRC Channel:
-
-irc://irc.freenode.net/cgminer
 
 SEE ALSO API-README, ASIC-README and FGPA-README FOR MORE INFORMATION ON EACH.
 
@@ -126,76 +117,18 @@ Optional:
 	libudev dev library (libudev-dev)
 	(This is only required for USB device support and is linux only)
 
-If building from git:
+If building from git: (more at build.md)
 	autoconf
 	automake
 
-If building on Red Hat:
-        sudo yum install autoconf automake autoreconf libtool openssl-compat-bitcoin-devel.x86_64 \
-                         curl libcurl libcurl-devel openssh
 
-If building on Ubuntu:
-	sudo apt-get install build-essential autoconf automake libtool pkg-config \
-                             libcurl3-dev libudev-dev
 
 CGMiner specific configuration options:
-  --enable-bmsc           Compile support for BitMain Single Chain(default disabled)
-  --enable-bitmain        Compile support for BitMain Multi Chain(default disabled)
-  --enable-avalon         Compile support for Avalon (default disabled)
-  --enable-avalon2        Compile support for Avalon2 (default disabled)
-  --enable-avalon4        Compile support for Avalon4 (default disabled)
-  --enable-bab            Compile support for BlackArrow Bitfury (default
-                          disabled)
-  --enable-bflsc          Compile support for BFL ASICs (default disabled)
-  --enable-bitforce       Compile support for BitForce FPGAs (default
-                          disabled)
-  --enable-bitfury        Compile support for BitFury ASICs (default disabled)
-  --enable-bitmine_A1     Compile support for Bitmine.ch A1 ASICs (default
-                          disabled)
-  --enable-blockerupter   Compile support for ASICMINER BlockErupter Tube/Prisma
-  			  (default disabled)
-  --enable-cointerra      Compile support for Cointerra ASICs (default disabled)
-  --enable-drillbit       Compile support for Drillbit BitFury ASICs (default
-                          disabled)
-  --enable-hashfast       Compile support for Hashfast (default disabled)
-  --enable-icarus         Compile support for Icarus (default disabled)
-  --enable-klondike       Compile support for Klondike (default disabled)
-  --enable-knc            Compile support for KnC miners (default disabled)
-  --enable-minion         Compile support for Minion BlackArrow ASIC (default
-                          disabled)
-  --enable-modminer       Compile support for ModMiner FPGAs(default disabled)
-  --enable-sp10           Compile support for Spondoolies SP10 (default
-                          disabled)
-  --enable-sp30           Compile support for Spondoolies SP30 (default
-                          disabled)
-  --disable-libcurl       Disable building with libcurl for getwork and GBT
-                          support
-  --without-curses        Compile support for curses TUI (default enabled)
-  --with-system-libusb    Compile against dynamic system libusb (default use
-                          included static libusb)
 
-Basic *nix build instructions:
-	To actually build:
+  --enable-bitmain_C5        Compile support for BitMain Antminer S9 Multi Chain(default disabled)
 
-	./autogen.sh	# only needed if building from git repo
-	CFLAGS="-O2 -Wall -march=native" ./configure <options>
-	make
 
-	No installation is necessary. You may run cgminer from the build
-	directory directly, but you may do make install if you wish to install
-	cgminer to a system location or location you specified.
 
-Building for windows:
-
-It is actually easiest to build a windows binary using cross compilation tools
-provided by "mxe" available at http://mxe.cc/ (use the 32 bit one!)
-Once you have followed the instructions for building mxe:
-	export PATH=(path/to/mxe)/usr/bin/:$PATH
-	CFLAGS="-O2 -Wall -W -march=i686" ./configure --host=i686-pc-mingw32 <options>
-	make
-
-Native WIN32 build instructions: see windows-build.txt but these instructions
-are now hopelessly out of date.
 
 ---
 
@@ -204,7 +137,7 @@ Usage instructions:  Run "cgminer --help" to see options:
 Usage: cgminer [-DdElmpPQqUsTouOchnV]
 
 Options for both config file and command line:
---anu-freq <arg>    Set AntminerU1/2 frequency in MHz, range 125-500 (default: 250.0)
+
 --api-allow <arg>   Allow API access only to the given list of [G:]IP[/Prefix] addresses[/subnets]
 --api-description <arg> Description placed in the API status header, default: cgminer version
 --api-groups <arg>  API one letter groups G:cmd:cmd[,P:cmd:*...] defining the cmds a groups can use
@@ -216,40 +149,11 @@ Options for both config file and command line:
 --api-mcast-port <arg> API Multicast listen port (default: 4028)
 --api-network       Allow API (if enabled) to listen on/for any address, default: only 127.0.0.1
 --api-port <arg>    Port number of miner API (default: 4028)
---au3-freq <arg>    Set AntminerU3 frequency in MHz, range 100-250 (default: 225.0)
---au3-volt <arg>    Set AntminerU3 voltage in mv, range 725-850, 0 to not set (default: 750)
---avalon-auto       Adjust avalon overclock frequency dynamically for best hashrate
---avalon-cutoff <arg> Set avalon overheat cut off temperature (default: 60)
---avalon-fan <arg>  Set fanspeed percentage for avalon, single value or range (default: 20-100)
---avalon-freq <arg> Set frequency range for avalon-auto, single value or range
---avalon-options <arg> Set avalon options baud:miners:asic:timeout:freq:tech
---avalon-temp <arg> Set avalon target temperature (default: 50)
---avalon2-freq      Set frequency range for Avalon2, single value or range
---avalon2-voltage   Set Avalon2 core voltage, in millivolts
---avalon2-fan       Set Avalon2 target fan speed
---avalon2-cutoff <arg> Set Avalon2 overheat cut off temperature (default: 88)
---avalon2-fixed-speed Set Avalon2 fan to fixed speed
---avalon4-automatic-voltage Automatic adjust voltage base on module DH
---avalon4-voltage   Set Avalon4 core voltage, in millivolts, step: 125
---avalon4-freq      Set frequency for Avalon4, 1 to 3 values, example: 445:385:370
---avalon4-fan       Set Avalon4 target fan speed range
---avalon4-temp <arg> Set Avalon4 target temperature (default: 42)
---avalon4-cutoff <arg> Set Avalon4 overheat cut off temperature (default: 65)
---avalon4-polling-delay <arg> Set Avalon4 polling delay value (ms) (default: 20)
---avalon4-ntime-offset <arg> Set Avalon4 MM ntime rolling max offset (default: 4)
---avalon4-aucspeed <arg> Set Avalon4 AUC IIC bus speed (default: 400000)
---avalon4-aucxdelay <arg> Set Avalon4 AUC IIC xfer read delay, 4800 ~= 1ms (default: 9600)
---bab-options <arg> Set BaB options max:def:min:up:down:hz:delay:trf
 --balance           Change multipool strategy from failover to even share balance
 --benchfile <arg>   Run cgminer in benchmark mode using a work file - produces no shares
 --benchfile-display Display each benchfile nonce found
 --benchmark         Run cgminer in benchmark mode - produces no shares
---bet-clk <arg>     Set clockspeed of ASICMINER Tube/Prisma to (arg+1)*10MHz (default: 23)
---bfl-range         Use nonce range on bitforce devices if supported
---bflsc-overheat <arg> Set overheat temperature where BFLSC devices throttle, 0 to disable (default: 85)
---bitburner-fury-voltage <arg> Set BitBurner Fury core voltage, in millivolts
---bitburner-fury-options <arg> Override avalon-options for BitBurner Fury boards baud:miners:asic:timeout:freq
---bitburner-voltage <arg> Set BitBurner (Avalon) core voltage, in millivolts
+
 --bitmain-auto      Adjust bitmain overclock frequency dynamically for best hashrate
 --bitmain-cutoff    Set bitmain overheat cut off temperature
 --bitmain-fan       Set fanspeed percentage for bitmain, single value or range (default: 20-100)
@@ -257,50 +161,26 @@ Options for both config file and command line:
 --bitmain-hwerror   Set bitmain device detect hardware error
 --bitmain-options   Set bitmain options baud:miners:asic:timeout:freq
 --bitmain-temp      Set bitmain target temperature
---bxf-bits <arg>    Set max BXF/HXF bits for overclocking (default: 54)
---bxf-temp-target <arg> Set target temperature for BXF/HXF devices (default: 82)
---bxm-bits <arg>    Set BXM bits for overclocking (default: 54)
+
 --btc-address <arg> Set bitcoin target address when solo mining to bitcoind
 --btc-sig <arg>     Set signature to add to coinbase when solo mining (optional)
 --compact           Use compact display without per device statistics
 --debug|-D          Enable debug output
 --disable-rejecting Automatically disable pools that continually reject shares
---drillbit-options <arg> Set drillbit options <int|ext>:clock[:clock_divider][:voltage]
+
 --expiry|-E <arg>   Upper bound on how many seconds after getting work we consider a share from it stale (default: 120)
 --failover-only     Don't leak work to backup pools when primary pool is lagging
 --fix-protocol      Do not redirect to a different getwork protocol (eg. stratum)
---hfa-hash-clock <arg> Set hashfast clock speed (default: 550)
---hfa-fail-drop <arg> Set how many MHz to drop clockspeed each failure on an overlocked hashfast device (default: 10)
---hfa-fan <arg>     Set fanspeed percentage for hashfast, single value or range (default: 10-85)
---hfa-name <arg>    Set a unique name for a single hashfast device specified with --usb or the first device found
---hfa-noshed        Disable hashfast dynamic core disabling feature
---hfa-options <arg> Set hashfast options name:clock (comma separated)
---hfa-temp-overheat <arg> Set the hashfast overheat throttling temperature (default: 95)
---hfa-temp-target <arg> Set the hashfast target temperature (0 to disable) (default: 88)
---hro-freq          Set the hashratio clock frequency (default: 280)
---hotplug <arg>     Seconds between hotplug checks (0 means never check)
---klondike-options <arg> Set klondike options clock:temptarget
+
 --load-balance      Change multipool strategy from failover to quota based balance
 --log|-l <arg>      Interval in seconds between log output (default: 5)
 --lowmem            Minimise caching of shares for low memory applications
---minion-chipreport <arg> Seconds to report chip 5min hashrate, range 0-100 (default: 0=disabled)
---minion-freq <arg> Set minion chip frequencies in MHz, single value or comma list, range 100-1400 (default: 1200)
---minion-freqchange Millisecond total time to do frequency changes (default: 1000)
---minion-freqpercent Percentage to use when starting up a chip (default: 70%)
---minion-idlecount  Report when IdleCount is >0 or changes
---minion-ledcount   Turn off led when more than this many chips below the ledlimit (default: 0)
---minion-ledlimit   Turn off led when chips GHs are below this (default: 90)
---minion-noautofreq Disable automatic frequency adjustment
---minion-overheat   Enable directly halting any chip when the status exceeds 100C
---minion-spidelay   Add a delay in microseconds after each SPI I/O
---minion-spireset   SPI regular reset: iNNN for I/O count or sNNN for seconds - 0 means none
---minion-spisleep   Sleep time in milliseconds when doing an SPI reset
---minion-temp <arg> Set minion chip temperature threshold, single value or comma list, range 120-160 (default: 135C)
+
 --monitor|-m <arg>  Use custom pipe cmd for output messages
---nfu-bits <arg>    Set nanofury bits for overclocking, range 32-63 (default: 50)
+-
 --net-delay         Impose small delays in networking to not overload slow routers
 --no-submit-stale   Don't submit shares if they are detected as stale
---osm-led-mode <arg> Set LED mode for OneStringMiner devices (default: 4)
+
 --pass|-p <arg>     Password for bitcoin JSON-RPC server
 --per-device-stats  Force verbose mode and output per-device statistics
 --protocol-dump|-P  Verbose dump of protocol-level activities
@@ -319,7 +199,7 @@ Options for both config file and command line:
 --socks-proxy <arg> Set socks4 proxy (host:port)
 --suggest-diff <arg> Suggest miner difficulty for pool to user (default: none)
 --syslog            Use system log for output messages (default: standard error)
---temp-cutoff <arg> Temperature where a device will be automatically disabled, one value or comma separated list (default: 95)
+--temp-cutoff <arg> Temperature where a device will be automatically disabled, one value or comma separated list (default: 90)
 --text-only|-T      Disable ncurses formatted screen output
 --url|-o <arg>      URL for bitcoin JSON-RPC server
 --usb <arg>         USB device selection
@@ -338,220 +218,16 @@ Loaded at start and used when saving without a name.
 --version|-V        Display version and exit
 
 
-Silent USB device (ASIC and FPGA) options:
 
---icarus-options <arg> Set specific FPGA board configurations - one set of values for all or comma separated
---icarus-timing <arg> Set how the Icarus timing is calculated - one setting/value for all or comma separated
---usb-dump          (See FPGA-README)
-
-See FGPA-README or ASIC-README for more information regarding these.
-
-
-ASIC only options:
-
---anu-freq <arg>    Set AntminerU1/2 frequency in MHz, range 125-500 (default: 250.0)
---au3-freq <arg>    Set AntminerU3 frequency in MHz, range 100-250 (default: 225.0)
---au3-volt <arg>    Set AntminerU3 voltage in mv, range 725-850, 0 to not set (default: 750)
---avalon-auto       Adjust avalon overclock frequency dynamically for best hashrate
---avalon-cutoff <arg> Set avalon overheat cut off temperature (default: 60)
---avalon-fan <arg> Set fanspeed percentage for avalon, single value or range (default: 20-100)
---avalon-freq <arg> Set frequency range for avalon-auto, single value or range
---avalon-options <arg> Set avalon options baud:miners:asic:timeout:freq:tech
---avalon-temp <arg> Set avalon target temperature (default: 50)
---avalon2-freq      Set frequency range for Avalon2, single value or range
---avalon2-voltage   Set Avalon2 core voltage, in millivolts
---avalon2-fan       Set Avalon2 target fan speed
---avalon2-cutoff <arg> Set Avalon2 overheat cut off temperature (default: 88)
---avalon2-fixed-speed Set Avalon2 fan to fixed speed
---avalon4-automatic-voltage Automatic adjust voltage base on module DH
---avalon4-voltage   Set Avalon4 core voltage, in millivolts, step: 125
---avalon4-freq      Set frequency for Avalon4, 1 to 3 values, example: 445:385:370
---avalon4-fan       Set Avalon4 target fan speed range
---avalon4-temp <arg> Set Avalon4 target temperature (default: 42)
---avalon4-cutoff <arg> Set Avalon4 overheat cut off temperature (default: 65)
---avalon4-polling-delay <arg> Set Avalon4 polling delay value (ms) (default: 20)
---avalon4-ntime-offset <arg> Set Avalon4 MM ntime rolling max offset (default: 4)
---avalon4-aucspeed <arg> Set Avalon4 AUC IIC bus speed (default: 400000)
---avalon4-aucxdelay <arg> Set Avalon4 AUC IIC xfer read delay, 4800 ~= 1ms (default: 9600)
---bab-options <arg> Set BaB options max:def:min:up:down:hz:delay:trf
---bflsc-overheat <arg> Set overheat temperature where BFLSC devices throttle, 0 to disable (default: 90)
---bitburner-fury-options <arg> Override avalon-options for BitBurner Fury boards baud:miners:asic:timeout:freq
---bitburner-fury-voltage <arg> Set BitBurner Fury core voltage, in millivolts
---bitburner-voltage <arg> Set BitBurner (Avalon) core voltage, in millivolts
---bitmine-a1-options <ref_clk>:<sys_clk>:<spi_clk>:<max_chip>
---bxf-temp-target <arg> Set target temperature for BXF devices (default: 82)
---bxm-bits <arg>    Set BXM bits for overclocking (default: 50)
---hfa-hash-clock <arg> Set hashfast clock speed (default: 550)
---hfa-fail-drop <arg> Set how many MHz to drop clockspeed each failure on an overlocked hashfast device (default: 10)
---hfa-fan <arg>     Set fanspeed percentage for hashfast, single value or range (default: 10-85)
---hfa-name <arg>    Set a unique name for a single hashfast device specified with --usb or the first device found
---hfa-noshed        Disable hashfast dynamic core disabling feature
---hfa-temp-overheat <arg> Set the hashfast overheat throttling temperature (default: 95)
---hfa-temp-target <arg> Set the hashfast target temperature (0 to disable) (default: 88)
---hro-freq          Set the hashratio clock frequency (default: 280)
---klondike-options <arg> Set klondike options clock:temptarget
---rock-freq <arg>   Set RockMiner frequency in MHz, range 125-500 (default: 270)
-
-See ASIC-README for more information regarding these.
-
-
-FPGA only options:
-
---bfl-range         Use nonce range on bitforce devices if supported
-
-See FGPA-README for more information regarding this.
-
-
-Cgminer should automatically find all of your Avalon ASIC, BFL ASIC, BitForce
-FPGAs, Icarus bitstream FPGAs, Klondike ASIC, ASICMINER usb block erupters,
-KnC ASICs, BaB ASICs, Hashfast ASICs, ModMiner FPGAs, BPMC/BGMC BF1 USB ASICs,
-Bi*fury USB ASICs, Onestring miner USB ASICs, Hexfury USB ASICs, Nanofury USB
-ASICs, Antminer U1/U2/U2+ U3 USB ASICs, Cointerra devices, BFx2 USB ASICs,
-Rockminer R-Box/RK-Box/T1 USB ASICs, Avalon2/3/4 USB ASICs and Hashratio USB
-ASICs.
+Cgminer should automatically find all of your Bitmain Antminer S9 ASICs.
 
 ---
 
-SETTING UP USB DEVICES
+SETTING UP
 
-WINDOWS:
+Open your miners frontend and choose the options there
 
-On windows, the direct USB support requires the installation of a WinUSB
-driver (NOT the ftdi_sio driver), and attach it to the chosen USB device.
-When configuring your device, plug it in and wait for windows to attempt to
-install a driver on its own. It may think it has succeeded or failed but wait
-for it to finish regardless. This is NOT the driver you want installed. At this
-point you need to associate your device with the WinUSB driver. The easiest
-way to do this is to use the zadig utility which you must right click on and
-run as administrator. Then once you plug in your device you can choose the
-"list all devices" from the "option" menu and you should be able to see the
-device as something like: "BitFORCE SHA256 SC". Choose the install or replace
-driver option and select WinUSB. You can either google for zadig or download
-it from the cgminer directory in the DOWNLOADS link above.
-
-When you first switch a device over to WinUSB with zadig and it shows that
-correctly on the left of the zadig window, but it still gives permission
-errors, you may need to unplug the USB miner and then plug it back in. Some
-users may need to reboot at this point.
-
-
-LINUX:
-
-The short version:
-
- sudo cp 01-cgminer.rules /etc/udev/rules.d/
-
-
-The long version:
-
-On linux, the direct USB support requires no drivers at all. However due to
-permissions issues, you may not be able to mine directly on the devices as a
-regular user without giving the user access to the device or by mining as
-root (administrator). In order to give your regular user access, you can make
-him a member of the plugdev group with the following commands:
-
- sudo usermod -G plugdev -a `whoami`
-
-If your distribution does not have the plugdev group you can create it with:
-
- sudo groupadd plugdev
-
-In order for the USB devices to instantly be owned by the plugdev group and
-accessible by anyone from the plugdev group you can copy the file
-"01-cgminer.rules" from the cgminer archive into the /etc/udev/rules.d
-directory with the following command:
-
- sudo cp 01-cgminer.rules /etc/udev/rules.d/
-
-After this you can either manually restart udev and re-login, or more easily
-just reboot.
-
-
-OSX:
-
-On OSX, like Linux, no drivers need to be installed. However some devices
-like the bitfury USB sticks automatically load a driver thinking they're a
-modem and the driver needs to be unloaded for cgminer to work:
-
-sudo kextunload -b com.apple.driver.AppleUSBCDC
-sudo kextunload -b com.apple.driver.AppleUSBCDCACMData
-
-There may be a limit to the number of USB devices that you are allowed to start.
-The following set of commands, followed by a reboot will increase that:
-
- sudo su
- touch /etc/sysctl.conf
- echo kern.sysv.semume=100 >> /etc/sysctl.conf
- chown root:wheel /etc/sysctl.conf
- chmod 0644 /etc/sysctl.conf
-
-Some devices need superuser access to mine on them so cgminer may need to
-be started with sudo
-i.e.:
-sudo cgminer <insert commands here>
-
-
----
-
-Advanced USB options:
-
-The --usb option can restrict how many USB devices are found:
-
-  --usb 1:2,1:3,1:4,1:*
-or
-  --usb BAS:1,BFL:1,MMQ:0,ICA:0,KLN:0
-or
-  --usb :10
-
-You can only use one of the above 3
-
-The first version
-  --usb 1:2,1:3,1:4,1:*
-allows you to select which devices to mine on with a list of USB
- bus_number:device_address
-All other USB devices will be ignored
-Hotplug will also only look at the devices matching the list specified and
-find nothing new if they are all in use
-You can specify just the USB bus_number to find all devices like 1:*
-which means any devices on USB bus_number 1
-This is useful if you unplug a device then plug it back in the same port,
-it usually reappears with the same bus_number but a different device_address
-
-You can see the list of all USB devices on linux with 'sudo lsusb'
-Cgminer will list the recognised USB devices
-
-with the '-n' option or the
-'--usb-dump 0' option
-The '--usb-dump N' option with a value of N greater than 0 will dump a lot
-of details about each recognised USB device
-If you wish to see all USB devices, include the --usb-list-all option
-
-The second version
-  --usb BAS:1,BFL:1,MMQ:0,ICA:0,KLN:0
-allows you to specify how many devices to choose based on each device
-driver cgminer has - the current USB drivers are:
-AVA, BAS, BFL, BF1, DRB, HFA, ICA, KLN and MMQ.
-
-N.B. you can only specify which device driver to limit, not the type of
-each device, e.g. with BAS:n you can limit how many BFL ASIC devices will
-be checked, but you cannot limit the number of each type of BFL ASIC
-
-Also note that the MMQ count is the number of MMQ backplanes you have
-not the number of MMQ FPGAs
-
-The third version
-  --usb :10
-means only use a maximum of 10 devices of any supported USB devices
-Once cgminer has 10 devices it will not configure any more and hotplug will
-not scan for any more
-If one of the 10 devices stops working, hotplug - if enabled, as is default
-- will scan normally again until it has 10 devices
-
-  --usb :0 will disable all USB I/O other than to initialise libusb
-
----
-
-WHILE RUNNING:
+WHILE RUNNING from SSh Terminal:
 
 The following options are available while running with a single keypress:
 
@@ -608,19 +284,15 @@ Q quits the application.
 
 The running log shows output like this:
 
- [2013-11-09 11:04:41] Accepted 01b3bde7 Diff 150/128 AVA 1 pool 0
- [2013-11-09 11:04:49] Accepted 015df995 Diff 187/128 AVA 1 pool 0
- [2013-11-09 11:04:50] Accepted 01163b68 Diff 236/128 AVA 1 pool 0
- [2013-11-09 11:04:53] Accepted 9f745840 Diff 411/128 BAS 1 pool 0
+ [2016-11-09 11:11:41] Accepted 01b3bde7 Diff 382345134/342345150 BC5 1 pool 0
+ [2016-11-09 11:11:49] Accepted 015df995 Diff 392345612/342345150 BC5 1 pool 0
+ [2016-11-09 11:11:50] Accepted 01163b68 Diff 372345456/342345150 BC5 1 pool 0
+ [2016-11-09 11:11:53] Accepted 9f745840 Diff 352345786/342345150 BC5 1 pool 0
 
 The 8 byte hex value are the 1st nonzero bytes of the share being submitted to
 the pool. The 2 diff values are the actual difficulty target that share reached
 followed by the difficulty target the pool is currently asking for.
 
----
-Also many issues and FAQs are covered in the forum thread
-dedicated to this program,
-	http://forum.bitcoin.org/index.php?topic=28402.0
 
 DISPLAY:
 
@@ -1056,25 +728,6 @@ should produce a work utility of approximately 1 per 71.6MH. This means at
 do "better WU" than this - it is luck related. However you can make it much
 worse if your machine produces a lot of hardware errors producing invalid work.
 
-Q: What should I build in for a generic distribution binary?
-A: There are a number of drivers that expect to be used on dedicated standalone
-hardware. That said, the drivers that are designed to work generically with
-USB on any hardware are the following:
-
---enable-avalon
---enable-avalon2
---enable-avalon4
---enable-bflsc
---enable-bitfury
---enable-blockerupter
---enable-cointerra
---enable-drillbit
---enable-hashfast
---enable-hashratio
---enable-icarus
---enable-klondike
-
----
 
 This code is provided entirely free of charge by the programmer in his spare
 time so donations would be greatly appreciated. Please consider donating to the
