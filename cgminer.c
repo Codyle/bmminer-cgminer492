@@ -92,13 +92,15 @@ struct strategies strategies[] =
 
 static char packagename[256];
 
-FILE * g_logwork_file = NULL;
+FILE * g_logwork_file      = NULL;
 FILE * g_logwork_files[65] = {0};
 FILE * g_logwork_diffs[65] = {0};
-int g_logwork_asicnum = 0;
+int g_logwork_asicnum      = 0;
 
 bool opt_work_update;
 bool opt_protocol;
+
+
 static struct benchfile_layout
 {
     int length;
@@ -111,6 +113,8 @@ static struct benchfile_layout
     { 8,    "DifficultyBits" },
     { 10,   "NonceTime" } // 10 digits
 };
+
+
 enum benchwork
 {
     BENCHWORK_VERSION = 0,
@@ -121,16 +125,19 @@ enum benchwork
     BENCHWORK_COUNT
 };
 
+
 #ifdef HAVE_LIBCURL
 static char *opt_btc_address;
 static char *opt_btc_sig;
 #endif
+
 static char *opt_benchfile;
 static bool opt_benchfile_display;
 static FILE *benchfile_in;
 static int benchfile_line;
 static int benchfile_work;
 static bool opt_benchmark;
+
 bool have_longpoll;
 bool want_per_device_stats;
 bool use_syslog;
@@ -138,6 +145,7 @@ bool opt_quiet;
 bool opt_realquiet;
 bool opt_loginput;
 bool opt_compact;
+
 const int opt_cutofftemp = 95;
 int opt_log_interval = 5;
 int opt_queue = 1;
@@ -155,6 +163,7 @@ int opt_pool_fallback = 120;
 #if defined(USE_USBUTILS)
 int nDevs;
 #endif
+
 bool opt_restart = true;
 bool opt_nogpu;
 
@@ -166,11 +175,13 @@ static int most_devices;
 struct cgpu_info **devices;
 int mining_threads;
 int num_processors;
+
 #ifdef HAVE_CURSES
 bool use_curses = true;
 #else
 bool use_curses;
 #endif
+
 static bool opt_widescreen;
 static bool alt_status;
 static bool switch_status;
@@ -207,15 +218,16 @@ static bool no_work;
 bool opt_worktime;
 static char *opt_set_null;
 
-#ifdef USE_BITMAIN
+#ifdef USE_BITMAIN // mean S7 only
 char *opt_bitmain_options = NULL;
-char *opt_bitmain_freq = NULL;
+char *opt_bitmain_freq    = NULL;
 char *opt_bitmain_voltage = NULL;
 bool fan_custom = TRUE;
 char *fan_pwm_data = (char*) 20;
 //uint8_t fan_eft = 1;
 bool fan_ctrl_type = TRUE;
 #endif
+
 static char *opt_set_null;
 
 #ifdef USE_USBUTILS
@@ -239,9 +251,11 @@ struct thr_info **mining_thr;
 static int gwsched_thr_id;
 static int watchpool_thr_id;
 static int watchdog_thr_id;
+
 #ifdef HAVE_CURSES
 static int input_thr_id;
 #endif
+
 int gpur_thr_id;
 static int api_thr_id;
 
@@ -288,6 +302,7 @@ double rolling1, rolling5, rolling15;
 double total_rolling;
 double total_mhashes_done;
 char displayed_hash_rate[16] = {0};
+
 static struct timeval total_tv_start, total_tv_end;
 static struct timeval restart_tv_start, update_tv_start;
 
@@ -336,6 +351,7 @@ double current_diff = 0xFFFFFFFFFFFFFFFFULL;
 static char block_diff[8];
 uint64_t best_diff = 0;
 
+
 struct block
 {
     char hash[68];
@@ -347,6 +363,7 @@ static struct block *blocks = NULL;
 
 
 int swork_id;
+
 
 /* For creating a hash database of stratum shares submitted that have not had
  * a response yet */
@@ -9840,6 +9857,7 @@ void enable_device(struct cgpu_info *cgpu)
     cgpu->queued_work = NULL;
 }
 
+
 struct _cgpu_devid_counter
 {
     char name[4];
@@ -9847,11 +9865,13 @@ struct _cgpu_devid_counter
     UT_hash_handle hh;
 };
 
+
 static void adjust_mostdevs(void)
 {
     if (total_devices - zombie_devs > most_devices)
         most_devices = total_devices - zombie_devs;
 }
+
 
 bool add_cgpu(struct cgpu_info *cgpu)
 {

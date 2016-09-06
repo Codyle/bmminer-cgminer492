@@ -1334,6 +1334,7 @@ struct pool {
 #define GETWORK_MODE_GBT 'G'
 #define GETWORK_MODE_SOLO 'C'
 
+
 struct work {
 	unsigned char	data[128];
 	unsigned char	midstate[32];
@@ -1357,7 +1358,7 @@ struct work {
 	bool		mined;
 	bool		clone;
 	bool		cloned;
-	int		rolltime;
+	int		    rolltime;
 	bool		longpoll;
 	bool		stale;
 	bool		mandatory;
@@ -1385,8 +1386,10 @@ struct work {
 
 	// Allow devices to identify work if multiple sub-devices
 	int		subid;
+
 	// Allow devices to flag work for their own purposes
 	bool		devflag;
+
 	// Allow devices to timestamp work for their own purposes
 	struct timeval	tv_stamp;
 
@@ -1395,7 +1398,9 @@ struct work {
 	struct timeval	tv_cloned;
 	struct timeval	tv_work_start;
 	struct timeval	tv_work_found;
-	char		getwork_mode;
+
+	char getwork_mode;
+
 #ifdef USE_BITMAIN_C5
 	int version;
 #endif
@@ -1424,8 +1429,7 @@ extern bool test_nonce(struct work *work, uint32_t nonce);
 extern bool test_nonce_diff(struct work *work, uint32_t nonce, double diff);
 extern bool submit_tested_work(struct thr_info *thr, struct work *work);
 extern bool submit_nonce(struct thr_info *thr, struct work *work, uint32_t nonce);
-extern bool submit_noffset_nonce(struct thr_info *thr, struct work *work, uint32_t nonce,
-			  int noffset);
+extern bool submit_noffset_nonce(struct thr_info *thr, struct work *work, uint32_t nonce, int noffset);
 extern int share_work_tdiff(struct cgpu_info *cgpu);
 extern bool submit_nonce_1(struct thr_info *thr, struct work *work, uint32_t nonce, int * nofull);
 extern void submit_nonce_2(struct work *work);
@@ -1457,7 +1461,6 @@ extern char *curses_input(const char *query);
 extern void kill_work(void);
 extern void switch_pools(struct pool *selected);
 extern void _discard_work(struct work **workptr, const char *file, const char *func, const int line);
-#define discard_work(WORK) _discard_work(&(WORK), __FILE__, __func__, __LINE__)
 extern void remove_pool(struct pool *pool);
 extern void write_config(FILE *fcfg);
 extern void zero_bestshare(void);
@@ -1482,16 +1485,22 @@ extern void roll_work(struct work *work);
 extern struct work *make_clone(struct work *work);
 extern void clean_work(struct work *work);
 extern void _free_work(struct work **workptr, const char *file, const char *func, const int line);
-#define free_work(WORK) _free_work(&(WORK), __FILE__, __func__, __LINE__)
 extern void set_work_ntime(struct work *work, int ntime);
 extern struct work *copy_work_noffset(struct work *base_work, int noffset);
+
+#define free_work(WORK) _free_work(&(WORK), __FILE__, __func__, __LINE__)
+#define discard_work(WORK) _discard_work(&(WORK), __FILE__, __func__, __LINE__)
 #define copy_work(work_in) copy_work_noffset(work_in, 0)
+
+
 extern uint64_t share_diff(const struct work *work);
 extern struct thr_info *get_thread(int thr_id);
 extern struct cgpu_info *get_devices(int id);
 
-enum api_data_type {
-	API_ESCAPE,
+
+enum api_data_type
+{
+    API_ESCAPE,
 	API_STRING,
 	API_CONST,
 	API_UINT8,
@@ -1520,8 +1529,10 @@ enum api_data_type {
 	API_AVG
 };
 
-struct api_data {
-	enum api_data_type type;
+
+struct api_data
+{
+    enum api_data_type type;
 	char *name;
 	void *data;
 	bool data_was_malloc;
@@ -1529,32 +1540,35 @@ struct api_data {
 	struct api_data *next;
 };
 
-extern struct api_data *api_add_escape(struct api_data *root, char *name, char *data, bool copy_data);
-extern struct api_data *api_add_string(struct api_data *root, char *name, char *data, bool copy_data);
+extern struct api_data *api_add_avg(struct api_data *root, char *name, float *data, bool copy_data);
+extern struct api_data *api_add_bool(struct api_data *root, char *name, bool *data, bool copy_data);
+extern struct api_data *api_add_double(struct api_data *root, char *name, double *data, bool copy_data);
 extern struct api_data *api_add_const(struct api_data *root, char *name, const char *data, bool copy_data);
+extern struct api_data *api_add_diff(struct api_data *root, char *name, double *data, bool copy_data);
+extern struct api_data *api_add_elapsed(struct api_data *root, char *name, double *data, bool copy_data);
+extern struct api_data *api_add_escape(struct api_data *root, char *name, char *data, bool copy_data);
+extern struct api_data *api_add_freq(struct api_data *root, char *name, double *data, bool copy_data);
+extern struct api_data *api_add_hex32(struct api_data *root, char *name, uint32_t *data, bool copy_data);
+extern struct api_data *api_add_hs(struct api_data *root, char *name, double *data, bool copy_data);
+extern struct api_data *api_add_int(struct api_data *root, char *name, int *data, bool copy_data);
+extern struct api_data *api_add_mhs(struct api_data *root, char *name, double *data, bool copy_data);
+extern struct api_data *api_add_mhstotal(struct api_data *root, char *name, double *data, bool copy_data);
+extern struct api_data *api_add_percent(struct api_data *root, char *name, double *data, bool copy_data);
+extern struct api_data *api_add_string(struct api_data *root, char *name, char *data, bool copy_data);
+extern struct api_data *api_add_time(struct api_data *root, char *name, time_t *data, bool copy_data);
+extern struct api_data *api_add_timeval(struct api_data *root, char *name, struct timeval *data, bool copy_data);
+extern struct api_data *api_add_utility(struct api_data *root, char *name, double *data, bool copy_data);
+extern struct api_data *api_add_uint(struct api_data *root, char *name, unsigned int *data, bool copy_data);
 extern struct api_data *api_add_uint8(struct api_data *root, char *name, uint8_t *data, bool copy_data);
 extern struct api_data *api_add_int16(struct api_data *root, char *name, uint16_t *data, bool copy_data);
 extern struct api_data *api_add_uint16(struct api_data *root, char *name, uint16_t *data, bool copy_data);
-extern struct api_data *api_add_int(struct api_data *root, char *name, int *data, bool copy_data);
-extern struct api_data *api_add_uint(struct api_data *root, char *name, unsigned int *data, bool copy_data);
 extern struct api_data *api_add_uint32(struct api_data *root, char *name, uint32_t *data, bool copy_data);
-extern struct api_data *api_add_hex32(struct api_data *root, char *name, uint32_t *data, bool copy_data);
 extern struct api_data *api_add_uint64(struct api_data *root, char *name, uint64_t *data, bool copy_data);
-extern struct api_data *api_add_double(struct api_data *root, char *name, double *data, bool copy_data);
-extern struct api_data *api_add_elapsed(struct api_data *root, char *name, double *data, bool copy_data);
-extern struct api_data *api_add_bool(struct api_data *root, char *name, bool *data, bool copy_data);
-extern struct api_data *api_add_timeval(struct api_data *root, char *name, struct timeval *data, bool copy_data);
-extern struct api_data *api_add_time(struct api_data *root, char *name, time_t *data, bool copy_data);
-extern struct api_data *api_add_mhs(struct api_data *root, char *name, double *data, bool copy_data);
-extern struct api_data *api_add_mhstotal(struct api_data *root, char *name, double *data, bool copy_data);
 extern struct api_data *api_add_temp(struct api_data *root, char *name, float *data, bool copy_data);
-extern struct api_data *api_add_utility(struct api_data *root, char *name, double *data, bool copy_data);
-extern struct api_data *api_add_freq(struct api_data *root, char *name, double *data, bool copy_data);
 extern struct api_data *api_add_volts(struct api_data *root, char *name, float *data, bool copy_data);
-extern struct api_data *api_add_hs(struct api_data *root, char *name, double *data, bool copy_data);
-extern struct api_data *api_add_diff(struct api_data *root, char *name, double *data, bool copy_data);
-extern struct api_data *api_add_percent(struct api_data *root, char *name, double *data, bool copy_data);
-extern struct api_data *api_add_avg(struct api_data *root, char *name, float *data, bool copy_data);
+
+
+
 
 extern void dupalloc(struct cgpu_info *cgpu, int timelimit);
 extern void dupcounters(struct cgpu_info *cgpu, uint64_t *checked, uint64_t *dups);
@@ -1563,8 +1577,9 @@ extern bool isdupnonce(struct cgpu_info *cgpu, struct work *work, uint32_t nonce
 extern void cg_logwork(struct work *work, unsigned char *nonce_bin, bool ok);
 extern void cg_logwork_uint32(struct work *work, uint32_t nonce, bool ok);
 
-#if defined(USE_BITMAIN) || defined(USE_BMSC)
+#if defined(USE_BITMAIN)
 extern void rev(unsigned char *s, size_t l);
 extern int check_asicnum(int asic_num, unsigned char nonce);
 #endif
+
 #endif /* __MINER_H__ */
