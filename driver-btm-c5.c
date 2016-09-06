@@ -42,80 +42,9 @@
 #include "driver-btm-c5.h"
 #include "sha2_c5.h"
 
-//global various
-int fd;                                         // axi fpga
-int fd_fpga_mem;                                // fpga memory
-int fpga_version;
-int pcb_version;
-unsigned int *axi_fpga_addr = NULL;             // axi address
-unsigned int *fpga_mem_addr = NULL;             // fpga memory address
-unsigned int *nonce2_jobid_address = NULL;      // the value should be filled in NONCE2_AND_JOBID_STORE_ADDRESS
-unsigned int *job_start_address_1 = NULL;       // the value should be filled in JOB_START_ADDRESS
-unsigned int *job_start_address_2 = NULL;       // the value should be filled in JOB_START_ADDRESS
-struct thr_info *read_nonce_reg_id;                 // thread id for read nonce and register
-struct thr_info *check_system_work_id;                  // thread id for check system
-struct thr_info *read_temp_id;
-struct thr_info *read_hash_rate;
-struct thr_info *pic_heart_beat;
-struct thr_info *change_voltage_to_old;
-struct thr_info *send_mac_thr;
-
-
-
-bool gBegin_get_nonce = false;
-struct timeval tv_send_job = {0, 0};
-
-pthread_mutex_t reg_mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t nonce_mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t reg_read_mutex = PTHREAD_MUTEX_INITIALIZER;
-pthread_mutex_t iic_mutex = PTHREAD_MUTEX_INITIALIZER;
-
-uint64_t h = 0;
-
-
-uint32_t given_id = 2;
-uint32_t c_coinbase_padding = 0;
-uint32_t c_merkles_num = 0;
-uint32_t l_coinbase_padding = 0;
-uint32_t l_merkles_num = 0;
-int last_temperature = 0, temp_highest = 0;
-
-bool opt_bitmain_fan_ctrl = false;
-int opt_bitmain_fan_pwm = 0;
-int opt_bitmain_c5_freq = 600;
-int opt_bitmain_c5_voltage = 176;
-int ADD_FREQ = 0;
-int ADD_FREQ1 = 0;
-uint8_t de_voltage = 176;
-
-bool opt_bitmain_new_cmd_type_vil = false;
-bool status_error = false;
-bool once_error = false;
-bool iic_ok = false;
-int check_iic = 0;
-bool update_temp =false;
-uint64_t rate[BITMAIN_MAX_CHAIN_NUM] = {0};
-int rate_error[BITMAIN_MAX_CHAIN_NUM] = {0};
-char displayed_rate[BITMAIN_MAX_CHAIN_NUM][16];
-uint8_t chain_voltage[BITMAIN_MAX_CHAIN_NUM] = {0};
-unsigned char hash_board_id[BITMAIN_MAX_CHAIN_NUM][12];
-
-
 #define id_string_len 34
 #define AUTH_URL    "auth.minerlink.com"
 #define PORT        "7000"
-
-static bool need_send = true;
-char * mac;
-bool stop_mining = false;
-char hash_board_id_string[BITMAIN_MAX_CHAIN_NUM*id_string_len];
-
-
-struct nonce_content temp_nonce_buf[MAX_RETURNED_NONCE_NUM];
-struct reg_content temp_reg_buf[MAX_RETURNED_NONCE_NUM];
-struct nonce_buf nonce_read_out;
-struct reg_buf reg_value_buf;
-
 
 #define USE_IIC 1
 #define TEMP_CALI 0
@@ -124,12 +53,50 @@ struct reg_buf reg_value_buf;
 
 #define offsetof(TYPE, MEMBER) ((size_t) &((TYPE *)0)->MEMBER)
 
+//global various
 
-void *gpio0_vaddr=NULL;
-struct all_parameters *dev;
+// BOOL
+bool opt_bitmain_new_cmd_type_vil = false;
+bool status_error = false;
+bool once_error = false;
+bool iic_ok = false;
+bool opt_bitmain_fan_ctrl = false;
+bool gBegin_get_nonce = false;
+bool update_temp =false;
+bool stop_mining = false;
+
+static bool need_send = true;
+
+// CHAR
+char displayed_rate[BITMAIN_MAX_CHAIN_NUM][16];
+char * mac;
+char hash_board_id_string[BITMAIN_MAX_CHAIN_NUM*id_string_len];
+unsigned char hash_board_id[BITMAIN_MAX_CHAIN_NUM][12];
+
+// INTEGERS
+int fd;                                         // axi fpga
+int fd_fpga_mem;                                // fpga memory
+int fpga_version;
+int pcb_version;
+int last_temperature = 0;
+int temp_highest = 0;
+int opt_bitmain_fan_pwm = 0;
+int opt_bitmain_c5_freq = 600;
+int opt_bitmain_c5_voltage = 176;
+int ADD_FREQ = 0;
+int ADD_FREQ1 = 0;
+int check_iic = 0;
+int rate_error[BITMAIN_MAX_CHAIN_NUM] = {0};
+
 unsigned int is_first_job = 0;
+unsigned int *axi_fpga_addr = NULL;             // axi address
+unsigned int *fpga_mem_addr = NULL;             // fpga memory address
+unsigned int *nonce2_jobid_address = NULL;      // the value should be filled in NONCE2_AND_JOBID_STORE_ADDRESS
+unsigned int *job_start_address_1 = NULL;       // the value should be filled in JOB_START_ADDRESS
+unsigned int *job_start_address_2 = NULL;       // the value should be filled in JOB_START_ADDRESS
 
-//other equipment related
+uint8_t de_voltage = 176;
+uint8_t chain_voltage[BITMAIN_MAX_CHAIN_NUM] = {0};
 
 // --------------------------------------------------------------
 //      CRC16 check table
@@ -188,6 +155,42 @@ const uint8_t chCRCLTalbe[] =                                 // CRC low byte ta
 
 
 //crc
+
+uint32_t given_id = 2;
+uint32_t c_coinbase_padding = 0;
+uint32_t c_merkles_num = 0;
+uint32_t l_coinbase_padding = 0;
+uint32_t l_merkles_num = 0;
+
+uint64_t h = 0;
+uint64_t rate[BITMAIN_MAX_CHAIN_NUM] = {0};
+
+
+// VOID
+void *gpio0_vaddr=NULL;
+
+// pthread_mutex_t
+pthread_mutex_t reg_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t nonce_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t reg_read_mutex = PTHREAD_MUTEX_INITIALIZER;
+pthread_mutex_t iic_mutex = PTHREAD_MUTEX_INITIALIZER;
+
+// Struct
+struct thr_info *read_nonce_reg_id;                 // thread id for read nonce and register
+struct thr_info *check_system_work_id;                  // thread id for check system
+struct thr_info *read_temp_id;
+struct thr_info *read_hash_rate;
+struct thr_info *pic_heart_beat;
+struct thr_info *change_voltage_to_old;
+struct thr_info *send_mac_thr;
+struct timeval tv_send_job = {0, 0};
+struct nonce_content temp_nonce_buf[MAX_RETURNED_NONCE_NUM];
+struct reg_content temp_reg_buf[MAX_RETURNED_NONCE_NUM];
+struct nonce_buf nonce_read_out;
+struct reg_buf reg_value_buf;
+struct all_parameters *dev;
+
+
 uint16_t CRC16(const uint8_t* p_data, uint16_t w_len)
 {
     uint8_t chCRCHi = 0xFF; // CRC high byte initialize
