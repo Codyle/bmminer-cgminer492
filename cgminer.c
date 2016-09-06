@@ -365,7 +365,7 @@ static struct stratum_share *stratum_shares = NULL;
 char *opt_socks_proxy = NULL;
 int opt_suggest_diff;
 
-int opt_multi_version = 1;
+int opt_multi_version = 1;  // set her to true / 1
 
 static const char def_conf[] = "bmminer.conf";
 static char *default_config;
@@ -1204,87 +1204,111 @@ static struct opt_table opt_config_table[] =
 
 
     OPT_WITH_ARG("--version-file",
-    set_version_path, NULL, opt_hidden,
-    "Set miner version file"),
+                 set_version_path, NULL, opt_hidden,
+                 "Set miner version file"),
+
     OPT_WITH_ARG("--logfile-openflag",
-    set_logfile_openflag, NULL, opt_hidden,
-    "Set log file open flag, default: a+"),
+                 set_logfile_openflag, NULL, opt_hidden,
+                 "Set log file open flag, default: a+"),
+
     OPT_WITH_ARG("--logwork",
-    set_logwork_path, NULL, opt_hidden,
-    "Set log work file path, following: minertext"),
+                 set_logwork_path, NULL, opt_hidden,
+                 "Set log work file path, following: minertext"),
+
     OPT_WITH_ARG("--logwork-asicnum",
-    set_logwork_asicnum, NULL, opt_hidden,
-    "Set log work asic num, following: 1, 32, 64"),
+                 set_logwork_asicnum, NULL, opt_hidden,
+                 "Set log work asic num, following: 1, 32, 64"),
+
     OPT_WITHOUT_ARG("--logwork-diff",
-    opt_set_bool, &opt_logwork_diff,
-    "Allow log work diff"),
+                    opt_set_bool, &opt_logwork_diff,
+                    "Allow log work diff"),
+
     OPT_WITH_ARG("--logfile",
-    set_logfile_path, NULL, opt_hidden,
-    "Set log file, default: bmminer.log"),
+                 set_logfile_path, NULL, opt_hidden,
+                 "Set log file, default: bmminer.log"),
+
     OPT_WITH_ARG("--api-allow",
-    opt_set_charp, NULL, &opt_api_allow,
-    "Allow API access only to the given list of [G:]IP[/Prefix] addresses[/subnets]"),
+                 opt_set_charp, NULL, &opt_api_allow,
+                 "Allow API access only to the given list of [G:]IP[/Prefix] addresses[/subnets]"),
+
     OPT_WITH_ARG("--api-description",
-    opt_set_charp, NULL, &opt_api_description,
-                     "Description placed in the API status header, default: cgminer version"),
+                 opt_set_charp, NULL, &opt_api_description,
+                 "Description placed in the API status header, default: cgminer version"),
+
     OPT_WITH_ARG("--api-groups",
-    opt_set_charp, NULL, &opt_api_groups,
-    "API one letter groups G:cmd:cmd[,P:cmd:*...] defining the cmds a groups can use"),
+                 opt_set_charp, NULL, &opt_api_groups,
+                 "API one letter groups G:cmd:cmd[,P:cmd:*...] defining the cmds a groups can use"),
+
     OPT_WITHOUT_ARG("--api-listen",
-    opt_set_bool, &opt_api_listen,
-    "Enable API, default: disabled"),
+                    opt_set_bool, &opt_api_listen,
+                    "Enable API, default: disabled"),
+
     OPT_WITHOUT_ARG("--api-mcast",
-    opt_set_bool, &opt_api_mcast,
-    "Enable API Multicast listener, default: disabled"),
+                    opt_set_bool, &opt_api_mcast,
+                    "Enable API Multicast listener, default: disabled"),
+
     OPT_WITH_ARG("--api-mcast-addr",
-    opt_set_charp, NULL, &opt_api_mcast_addr,
-    "API Multicast listen address"),
+                 opt_set_charp, NULL, &opt_api_mcast_addr,
+                 "API Multicast listen address"),
+
     OPT_WITH_ARG("--api-mcast-code",
-    opt_set_charp, NULL, &opt_api_mcast_code,
-    "Code expected in the API Multicast message, don't use '-'"),
+                 opt_set_charp, NULL, &opt_api_mcast_code,
+                 "Code expected in the API Multicast message, don't use '-'"),
+
     OPT_WITH_ARG("--api-mcast-des",
-    opt_set_charp, NULL, &opt_api_mcast_des,
-    "Description appended to the API Multicast reply, default: ''"),
+                 opt_set_charp, NULL, &opt_api_mcast_des,
+                 "Description appended to the API Multicast reply, default: ''"),
+
     OPT_WITH_ARG("--api-mcast-port",
-    set_int_1_to_65535, opt_show_intval, &opt_api_mcast_port,
-    "API Multicast listen port"),
+                 set_int_1_to_65535, opt_show_intval, &opt_api_mcast_port,
+                 "API Multicast listen port"),
+
     OPT_WITHOUT_ARG("--api-network",
-    opt_set_bool, &opt_api_network,
-    "Allow API (if enabled) to listen on/for any address, default: only 127.0.0.1"),
+                    opt_set_bool, &opt_api_network,
+                    "Allow API (if enabled) to listen on/for any address, default: only 127.0.0.1"),
+
     OPT_WITH_ARG("--api-port",
-    set_int_1_to_65535, opt_show_intval, &opt_api_port,
-    "Port number of miner API"),
+                 set_int_1_to_65535, opt_show_intval, &opt_api_port,
+                 "Port number of miner API"),
+
     OPT_WITH_ARG("--api-host",
-    opt_set_charp, NULL, &opt_api_host,
-    "Specify API listen address, default: 0.0.0.0"),
+                 opt_set_charp, NULL, &opt_api_host,
+                 "Specify API listen address, default: 0.0.0.0"),
 
     OPT_WITHOUT_ARG("--balance",
-    set_balance, &pool_strategy,
-    "Change multipool strategy from failover to even share balance"),
+                    set_balance, &pool_strategy,
+                    "Change multipool strategy from failover to even share balance"),
+
     OPT_WITH_ARG("--benchfile",
-    opt_set_charp, NULL, &opt_benchfile,
-                     "Run cgminer in benchmark mode using a work file - produces no shares"),
+                 opt_set_charp, NULL, &opt_benchfile,
+                 "Run cgminer in benchmark mode using a work file - produces no shares"),
+
     OPT_WITHOUT_ARG("--benchfile-display",
-    opt_set_bool, &opt_benchfile_display,
-    "Display each benchfile nonce found"),
+                    opt_set_bool, &opt_benchfile_display,
+                    "Display each benchfile nonce found"),
+
     OPT_WITHOUT_ARG("--benchmark",
-    opt_set_bool, &opt_benchmark,
-                        "Run cgminer in benchmark mode - produces no shares"),
+                    opt_set_bool, &opt_benchmark,
+                    "Run cgminer in benchmark mode - produces no shares"),
 
 
 #ifdef USE_BITMAIN_C5
     OPT_WITHOUT_ARG("--bitmain-fan-ctrl",
-    opt_set_bool, &opt_bitmain_fan_ctrl,
-    "Enable bitmain miner fan controlling"),
+                    opt_set_bool, &opt_bitmain_fan_ctrl,
+                    "Enable bitmain miner fan controlling"),
+
     OPT_WITH_ARG("--bitmain-fan-pwm",
-    set_int_0_to_100, opt_show_intval, &opt_bitmain_fan_pwm,
-    "Set bitmain fan pwm percentage 0~100"),
+                 set_int_0_to_100, opt_show_intval, &opt_bitmain_fan_pwm,
+                 "Set bitmain fan pwm percentage 0~100"),
+
     OPT_WITH_ARG("--bitmain-freq",
-    set_int_0_to_9999,opt_show_intval, &opt_bitmain_c5_freq,
-    "Set frequency"),
+                 set_int_0_to_9999,opt_show_intval, &opt_bitmain_c5_freq,
+                 "Set frequency"),
+
     OPT_WITH_ARG("--bitmain-voltage",
     set_int_0_to_9999,opt_show_intval, &opt_bitmain_c5_voltage,
     "Set voltage"),
+
     OPT_WITHOUT_ARG("--bitmain-use-vil",
     opt_set_bool, &opt_bitmain_new_cmd_type_vil,
     "Set bitmain miner use vil mode"),

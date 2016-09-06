@@ -1654,7 +1654,7 @@ void read_asic_register(unsigned char chain, unsigned char mode, unsigned char c
     unsigned int cmd_buf[3] = {0,0,0};
     unsigned int ret, value;
 
-    if(!opt_multi_version)    // fil mode
+    if(!opt_multi_version)    // fil mode but on cgminer.c it is set always to 1 / true!!!
     {
         buf[0] = GET_STATUS;
         buf[1] = chip_addr;
@@ -2438,12 +2438,12 @@ void set_baud(unsigned char bauddiv,int no_use)
         return;
     }
 
-    for(i=0; i<BITMAIN_MAX_CHAIN_NUM; i++)
+    for(i=0; i < BITMAIN_MAX_CHAIN_NUM; i++)
     {
         if(dev->chain_exist[i] == 1)
         {
             //first step: send new bauddiv to ASIC, but FPGA doesn't change its bauddiv, it uses old bauddiv to send BC command to ASIC
-            if(!opt_multi_version)  // fil mode
+            if(!opt_multi_version)  // fil mode ?? opt_bitmain_new_cmd_type_vil or opt_multi_version
             {
                 buf[0] = SET_BAUD_OPS;
                 buf[1] = 0x10;
@@ -2570,16 +2570,16 @@ void init_uart_baud()
     int i =0;
 
     rBaudrate = 1000000 * 5/3 / dev->timeout * (64*8);  //64*8 need send bit, ratio=2/3
-    baud = 25000000/rBaudrate/8 - 1;
-    baud = 1;
+    baud = 25000000 / rBaudrate / 8 - 1;
+    baud = 1; // what now? 1 or calculated like above ???
 
     if(baud > MAX_BAUD_DIVIDER)
     {
-        bauddiv = MAX_BAUD_DIVIDER;
+        bauddiv = MAX_BAUD_DIVIDER; // (MAX_BAUD_DIVIDER default: 26)
     }
     else
     {
-        bauddiv = baud;
+        bauddiv = baud; // = 1
     }
 
     applog(LOG_DEBUG,"%s: bauddiv = %d\n", __FUNCTION__, bauddiv);
@@ -2834,10 +2834,10 @@ void open_core()
                         {
                             break;
                         }
-                        else    //work fifo is full, wait for 50ms
+                        else    //work fifo is full, wait for 50ms ???
                         {
                             //applog(LOG_DEBUG,"%s: chain%d work fifo not ready: 0x%x\n", __FUNCTION__, i, work_fifo_ready);
-                            cgsleep_us(1000);
+                            cgsleep_ms(50); //  wait for 50ms ?? (default: cgsleep_us(1000))
                         }
                     }
                     while(1);
@@ -2885,7 +2885,7 @@ void open_core()
         }
         set_dhash_acc_control(get_dhash_acc_control() | OPERATION_MODE);
     }
-    else    // vil mode
+    else    // vil mode // it is always set to 1 at cgminer.c (1 / true)
     {
         set_dhash_acc_control(get_dhash_acc_control() & (~OPERATION_MODE) | VIL_MODE | VIL_MIDSTATE_NUMBER(opt_multi_version));
         set_hash_counting_number(0);
@@ -3036,7 +3036,7 @@ void open_core()
                 set_BC_write_command(value);
                 cgsleep_ms(10);
 
-                for(m=0; m<BM1385_CORE_NUM + 14; m++)
+                for(m=0; m<BM1385_CORE_NUM + 14; m++)  // BM1385_CORE_NUM = 50 + 14 = 64 ???
                 {
                     //applog(LOG_DEBUG,"%s: m = %d\n", __FUNCTION__, m);
                     do
@@ -3072,7 +3072,7 @@ void open_core()
                         set_BC_write_command(ret);
                     }
 
-                    if(m==BM1385_CORE_NUM + 14 - 1)
+                    if(m==BM1385_CORE_NUM + 14 - 1) // = 50 + 14 - 1 = 63
                     {
                         ret = get_BC_write_command();   //enable null work
                         ret |= BC_COMMAND_EN_NULL_WORK;
@@ -3104,7 +3104,7 @@ void open_core()
         }
         set_dhash_acc_control(get_dhash_acc_control() | OPERATION_MODE);
     }
-    else    // vil mode
+    else    // vil mode // for what do we need this else?
     {
         set_dhash_acc_control(get_dhash_acc_control() & (~OPERATION_MODE) | VIL_MODE | VIL_MIDSTATE_NUMBER(opt_multi_version) & (~NEW_BLOCK) & (~RUN_BIT));
         set_hash_counting_number(0);
@@ -3583,9 +3583,10 @@ int bitmain_c5_init(struct init_config config)
     cgsleep_ms(10);
     //check ASIC number for every chain
     check_asic_reg(CHIP_ADDRESS);
+
     cgsleep_ms(10);
     //set core number
-    dev->corenum = BM1387_CORE_NUM;
+    dev->corenum = BM1387_CORE_NUM; // default: 114 ?? Does on chip has only 114 cores, 1385 has 50
 
     software_set_address();
     cgsleep_ms(10);
@@ -3630,7 +3631,7 @@ int bitmain_c5_init(struct init_config config)
     {
         if(config_parameter.timeout_data_integer == 0 && config_parameter.timeout_data_fractions == 0)  //driver calculate out timeout value
         {
-            dev->timeout = 0x1000000/calculate_core_number(dev->corenum)*dev->addrInterval/(dev->frequency)*90/100;
+            dev->timeout = 0x1000000 / calculate_core_number(dev->corenum) * dev->addrInterval / (dev->frequency) * 90 / 100;
             applog(LOG_DEBUG,"dev->timeout = %d\n", dev->timeout);
         }
         else

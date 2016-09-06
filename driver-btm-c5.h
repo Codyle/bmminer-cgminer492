@@ -56,12 +56,14 @@
 #define BC_COMMAND_BUFFER_READY			(1 << 31)
 #define BC_COMMAND_EN_CHAIN_ID			(1 << 23)
 #define BC_COMMAND_EN_NULL_WORK			(1 << 22)
+
 //NONCE2_AND_JOBID_STORE_ADDRESS
 #define JOB_ID_OFFSET					(0x0/sizeof(int))
 #define HEADER_VERSION_OFFSET			(0x4/sizeof(int))
 #define NONCE2_L_OFFSET					(0x8/sizeof(int))
 #define NONCE2_H_OFFSET					(0xc/sizeof(int))
 #define MIDSTATE_OFFSET					0x20
+
 //DHASH_ACC_CONTROL
 #define VIL_MODE						(1 << 15)
 #define VIL_MIDSTATE_NUMBER(value)		((value &0x0f) << 8)
@@ -161,13 +163,15 @@
 #define TOTAL_LEN						0x160
 #define FPGA_MEM_TOTAL_LEN				(16*1024*1024)	// 16M bytes
 #define HARDWARE_VERSION_VALUE			0xC501
-#define NONCE2_AND_JOBID_STORE_SPACE	(2*1024*1024)	// 2M bytes
-#define NONCE2_AND_JOBID_STORE_SPACE_ORDER	9			// for 2M bytes space
+#define NONCE2_AND_JOBID_STORE_SPACE	(4*1024*1024)	// 2M bytes (default: 2) we give now 4
+#define NONCE2_AND_JOBID_STORE_SPACE_ORDER	18			// (default:9 for 2M bytes space) Set to: 18 for 4M bytes space
 #define JOB_STORE_SPACE					(1 << 16)		// for 64K bytes space
 #define JOB_START_SPACE					(1024*8)		// 8K bytes
 #define JOB_START_ADDRESS_ALIGN			32				// JOB_START_ADDRESS need 32 bytes aligned
 #define NONCE2_AND_JOBID_ALIGN			64				// NONCE2_AND_JOBID_STORE_SPACE need 64 bytes aligned
+
 #define MAX_TIMEOUT_VALUE				0x1ffff			// defined in TIME_OUT_CONTROL
+
 #define MAX_NONCE_NUMBER_IN_FIFO		0x1ff			// 511 nonce
 #define NONCE_DATA_LENGTH				4				// 4 bytes
 #define REGISTER_DATA_LENGTH			4				// 4 bytes
@@ -180,29 +184,29 @@
 #define PHY_MEM_JOB_START_ADDRESS_2		(PHY_MEM_JOB_START_ADDRESS_1 + JOB_STORE_SPACE)
 
 // macro define about miner
-#define BITMAIN_MAX_CHAIN_NUM			16
-#define CHAIN_ASIC_NUM					63
-#define BITMAIN_MAX_FAN_NUM				8				// FPGA just can supports 8 fan
+#define BITMAIN_MAX_CHAIN_NUM			4               // old value = 16 but there are only 4 (0 1 3 4) the 2 is empty check the api
+#define CHAIN_ASIC_NUM					63              // number of max asic chips for counting
+#define BITMAIN_MAX_FAN_NUM				4				// default = 8 set now to FPGA just can supports 8 fan but there are only 2 (0 and 3) check the api
 #define BITMAIN_DEFAULT_ASIC_NUM		64				// max support 64 ASIC on 1 HASH board
-#define MIDSTATE_LEN					32
-#define DATA2_LEN						12
-#define MAX_RETURNED_NONCE_NUM			10
-#define PREV_HASH_LEN					32
-#define MERKLE_BIN_LEN					32
+#define MIDSTATE_LEN					32              // MIDSTATE len = 32 Asicboost ? 2.5 Building work items
+#define DATA2_LEN						12              // 12 bytes ??
+#define MAX_RETURNED_NONCE_NUM			13              // Default 10, now testing 13
+#define PREV_HASH_LEN					32              // fixed 2.2 The Bitcoin block header (32 bytes)
+#define MERKLE_BIN_LEN					32              // fixed 2.2 The Bitcoin block header (32 bytes) Merkle root Head = 28 Version= 4 ??
 #define INIT_CONFIG_TYPE				0x51
 #define	STATUS_DATA_TYPE				0xa1
 #define SEND_JOB_TYPE					0x52
 #define READ_JOB_TYPE					0xa2
 #define CHECK_SYSTEM_TIME_GAP			10000			// 10s
 //fan
-#define MIN_FAN_NUM						2
-#define MAX_FAN_SPEED					6000
-#define MIN_PWM_PERCENT					20
-#define MAX_PWM_PERCENT					100
+#define MIN_FAN_NUM						2               // minimum number of fans
+#define MAX_FAN_SPEED					6000            // max rpm of the fans
+#define MIN_PWM_PERCENT					20              // min speed of the fan
+#define MAX_PWM_PERCENT					100             // max speed of the fan
 #define TEMP_INTERVAL					2
 #define MAX_TEMP						85
-#define MAX_FAN_TEMP 					75
-#define MIN_FAN_TEMP 					35
+#define MAX_FAN_TEMP 					75              // at 75C° and higher the fan will run at 100%
+#define MIN_FAN_TEMP 					35              // minimum fan speed at 35C° and lower (default: 20% of 6000)
 #define HAVE_TEMP 						0xF4
 
 #define PWM_ADJUST_FACTOR				((100 - MIN_PWM_PERCENT)/(MAX_FAN_TEMP-MIN_FAN_TEMP))
